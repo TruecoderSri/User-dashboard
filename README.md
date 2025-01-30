@@ -82,15 +82,13 @@ Developing this application provided valuable insights and posed some unique cha
 ### Improvements with More Time
 
 - **Persistent Backend Integration**: Replace JSONPlaceholder with a custom backend (e.g., Node.js, Express, or Firebase) to enable real data persistence and enhance functionality.
-- **Enhanced Validation**: Add comprehensive client-side and server-side validation to ensure data accuracy and security (e.g., email format checks, predefined department options).
 - **Pagination**: Implement server-side pagination or infinite scrolling to improve performance and scalability for large datasets.
-- **Unit Testing**: Introduce a robust test suite using tools like Jest or React Testing Library to ensure the reliability of components and features.
 - **Improved Styling**: Enhance the UI with subtle animations, hover effects, and transitions for a more polished user experience.
 - **Accessibility Compliance**: Focus on making the application inclusive by adhering to Web Content Accessibility Guidelines (WCAG), including keyboard navigation, ARIA roles, and proper contrast ratios.
 - **Advanced Error Handling**: Develop centralized error boundaries to handle unexpected application crashes elegantly and log errors for debugging purposes.
-- **Logging and Monitoring**: Integrate tools like Sentry to track runtime errors and monitor application performance.
+
 
 ### Final Note
 
-This project was crafted with thoughtful consideration of user needs and technical challenges. While developed by a human coder, it reflects iterative learning and the pursuit of balancing functionality with simplicity. With additional time, this dashboard could evolve into a production-grade application ready for real-world deployment.
+This project was crafted with thoughtful consideration of user needs and technical challenges. It reflects iterative learning and the pursuit of balancing functionality with simplicity. With additional time, this dashboard could evolve into a production-grade application ready for real-world deployment.
 
