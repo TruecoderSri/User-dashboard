@@ -1,86 +1,112 @@
-"use client";
-import { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
 
-export default function UserForm({ setUsers }) {
-  const [form, setForm] = useState({
+export default function UserForm({ handleSubmit, isEditing, editingUser }) {
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    companyName: "",
+    company: "",
   });
 
-  const handleInputChange = (e) => {
+  useEffect(() => {
+    if (isEditing && editingUser) {
+      setFormData({
+        firstName: editingUser.firstName,
+        lastName: editingUser.lastName,
+        email: editingUser.email,
+        company: editingUser.company,
+      });
+    }
+  }, [isEditing, editingUser]);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
 
-  const handleSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    // Validate fields
-    if (!form.firstName || !form.lastName || !form.email || !form.companyName) {
-      alert("All fields are required");
-      return;
-    }
-
-    // Submit the form and update users list
-    const newUser = {
-      id: users.length + 1,
-      name: `${form.firstName} ${form.lastName}`,
-      email: form.email,
-      company: { name: form.companyName },
-    };
-
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    setForm({ firstName: "", lastName: "", email: "", companyName: "" });
+    handleSubmit(formData);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      company: "",
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <div className="flex gap-4">
-        <TextField
-          label="First Name"
-          name="firstName"
-          value={form.firstName}
-          onChange={handleInputChange}
-          fullWidth
-        />
-        <TextField
-          label="Last Name"
-          name="lastName"
-          value={form.lastName}
-          onChange={handleInputChange}
-          fullWidth
-        />
-      </div>
-      <div className="flex gap-4 mt-4">
-        <TextField
-          label="Email"
-          name="email"
-          value={form.email}
-          onChange={handleInputChange}
-          fullWidth
-        />
-        <TextField
-          label="Company Name"
-          name="companyName"
-          value={form.companyName}
-          onChange={handleInputChange}
-          fullWidth
-        />
-      </div>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        sx={{ marginTop: 2 }}
-      >
-        Add User
-      </Button>
-    </form>
+    <div className="mb-6">
+      <h2 className="text-xl font-semibold mb-4">
+        {isEditing ? "Edit User" : "Add New User"}
+      </h2>
+      <form onSubmit={onSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="firstName" className="block">
+            First Name
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="lastName" className="block">
+            Last Name
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="block">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="company" className="block">
+            Company
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          {isEditing ? "Save Changes" : "Add User"}
+        </button>
+      </form>
+    </div>
   );
 }
