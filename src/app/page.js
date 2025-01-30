@@ -10,14 +10,14 @@ import UserTable from "@/app/components/UserTable";
 import SuccessModal from "@/app/components/SuccessModal";
 import ErrorModal from "@/app/components/ErrorModal";
 
-// Fetcher function for SWR
+// Fetcher function using SWR(State-While-Revalidate) a react based function to cache api data optimally.
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function Page() {
   const { data: fetchedUsers, error } = useSWR(API_URL, fetcher);
 
   const [users, setUsers] = useState([]);
-  const [count, setCount] = useState(10); // ID counter for new users
+  const [count, setCount] = useState(0); // ID counter for new users
   const [form, setForm] = useState({
     id: "",
     firstName: "",
@@ -42,7 +42,7 @@ export default function Page() {
         (max, user) => Math.max(max, user.id),
         0
       );
-      setCount(maxId + 1); // Update ID counter
+      setCount(maxId + 1); // Update ID counter dynamically
     }
   }, [fetchedUsers]);
 
@@ -113,7 +113,7 @@ export default function Page() {
 
         // Handle user edit
         if (form.id > 10) {
-          response = editUserData; // No API call for locally added users
+          response = editUserData; // No API call for locally added users as it won't reflect in the api.
         } else {
           response = await editUser(form.id, editUserData); // API call to edit user
         }
@@ -256,3 +256,9 @@ export default function Page() {
     </div>
   );
 }
+
+// Assumptions
+/*1.The API functions addUser, editUser, and deleteUser are properly defined and handle the respective API calls.
+2.The UserTable, AddEditModal, SuccessModal, and ErrorModal components are correctly implemented to handle the display and interactions.
+3.Pagination is handled via currentPage and usersPerPage, and data is sliced accordingly.
+4.users is the primary state for holding the user data, and count is used to generate unique IDs for new users. */
