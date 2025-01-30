@@ -1,75 +1,52 @@
 import { useEffect, useState } from "react";
 import UserForm from "./UserForm";
 import UserTable from "./UserTable";
-import { API_URL } from "@/app/utils/api";
+import { fetchUsers, addUser, editUser, deleteUser } from "@/app/utils/api";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
-  const [isEditing, setIsEditing] = useState(false); // To track if we are in edit mode
-  const [editingUser, setEditingUser] = useState(null); // To track the user being edited
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
 
-  // Fetch the list of users from the API when the page loads
+  // Fetch users on mount
   useEffect(() => {
-    fetchUsers();
+    loadUsers();
   }, []);
 
-  const fetchUsers = async () => {
+  const loadUsers = async () => {
     try {
-      const response = await fetch(`${API_URL}/users`);
-      const data = await response.json();
+      const data = await fetchUsers();
       setUsers(data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  // Handle form submit for adding, editing, or deleting users
+  // Handle add/edit user
   const handleSubmit = async (userData) => {
-    if (isEditing) {
-      // If editing, update the user
-      try {
-        const response = await fetch(`${API_URL}/users/${editingUser.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        });
-        const updatedUser = await response.json();
+    try {
+      if (isEditing) {
+        const updatedUser = await editUser(editingUser.id, userData);
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
             user.id === updatedUser.id ? updatedUser : user
           )
         );
-        setIsEditing(false); // Reset editing state
-        setEditingUser(null); // Clear the editing user
-      } catch (error) {
-        console.error("Error updating user:", error);
-      }
-    } else {
-      // If adding, create a new user
-      try {
-        const response = await fetch(`${API_URL}/users`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        });
-        const newUser = await response.json();
+        setIsEditing(false);
+        setEditingUser(null);
+      } else {
+        const newUser = await addUser(userData);
         setUsers((prevUsers) => [...prevUsers, newUser]);
-      } catch (error) {
-        console.error("Error adding user:", error);
       }
+    } catch (error) {
+      console.error("Error handling user:", error);
     }
   };
 
   // Handle delete user
   const handleDelete = async (userId) => {
     try {
-      await fetch(`${API_URL}/users/${userId}`, {
-        method: "DELETE",
-      });
+      await deleteUser(userId);
       setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -85,7 +62,6 @@ export default function Page() {
   return (
     <div className="container mx-auto p-4">
       <UserForm
-        setUsers={setUsers}
         handleSubmit={handleSubmit}
         isEditing={isEditing}
         editingUser={editingUser}

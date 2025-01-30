@@ -1,49 +1,35 @@
 export default function UserTable({ users, handleDelete, handleEdit }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="table-auto w-full">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="px-4 py-2 text-left">First Name</th>
-            <th className="px-4 py-2 text-left">Last Name</th>
-            <th className="px-4 py-2 text-left">Email</th>
-            <th className="px-4 py-2 text-left">Company</th>
-            <th className="px-4 py-2 text-left">Actions</th>
+    <table className="table-auto w-full border-collapse border border-gray-300">
+      <thead>
+        <tr>
+          <th className="border border-gray-300 px-4 py-2">Name</th>
+          <th className="border border-gray-300 px-4 py-2">Email</th>
+          <th className="border border-gray-300 px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user) => (
+          <tr key={user.id}>
+            <td className="border border-gray-300 px-4 py-2">{user.name}</td>
+            <td className="border border-gray-300 px-4 py-2">{user.email}</td>
+            <td className="border border-gray-300 px-4 py-2">
+              <button
+                onClick={() => handleEdit(user)}
+                className="bg-yellow-500 text-white px-3 py-1 mr-2"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(user.id)}
+                className="bg-red-500 text-white px-3 py-1"
+              >
+                Delete
+              </button>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="5" className="text-center p-4">
-                No users available
-              </td>
-            </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user.id}>
-                <td className="px-4 py-2">{user.firstName}</td>
-                <td className="px-4 py-2">{user.lastName}</td>
-                <td className="px-4 py-2">{user.email}</td>
-                <td className="px-4 py-2">{user.company}</td>
-                <td className="px-4 py-2">
-                  <button
-                    onClick={() => handleEdit(user)}
-                    className="text-blue-500 hover:underline"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(user.id)}
-                    className="ml-2 text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }
