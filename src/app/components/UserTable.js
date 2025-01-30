@@ -14,7 +14,7 @@ export default function UserTable({ users, handleEdit, handleDelete }) {
             <th className="border-none px-4 py-2">Name</th>
             <th className="border-none px-4 py-2">Email</th>
             <th className="border-none px-4 py-2">Department</th>
-            <th className="border-none px-4 py-2">Actions</th>{" "}
+            <th className="border-none px-4 py-2">Actions</th>
             {/* Column for actions like edit and delete */}
           </tr>
         </thead>
@@ -74,7 +74,6 @@ export default function UserTable({ users, handleEdit, handleDelete }) {
 
 /*
 Assumptions
-
 1.users: The users prop is an array of user objects, each containing id, name, email, and a nested company object with a name field.
 2.handleEdit: This function is passed as a prop and is responsible for handling the logic when a user clicks on the edit button. It takes a user object as its argument.
 3.handleDelete: This function is passed as a prop and handles the deletion of a user when the delete button is clicked. It expects the user's id as its argument.

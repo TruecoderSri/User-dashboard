@@ -1,21 +1,48 @@
-export default function SuccessModal({ message, onClose }) {
-  return (
-    // Modal overlay to display the modal on top of the page
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-4 rounded-lg shadow-lg">
-        <p>{message}</p>
+import React from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@mui/material";
+import { CheckCircle } from "@mui/icons-material";
 
-        {/* Button to trigger onClose function and close the modal */}
-        <button
-          onClick={onClose}
-          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-        >
+const SuccessModal = ({ open, setOpen, message }) => {
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        {message}
+        <CheckCircle
+          sx={{
+            marginLeft: "4px",
+            marginBottom: "4px",
+            color: "green",
+          }}
+        />
+      </DialogTitle>
+
+      <DialogActions
+        sx={{
+          justifyContent: "center",
+        }}
+      >
+        <Button onClick={handleClose} color="primary">
           OK
-        </button>
-      </div>
-    </div>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
-}
+};
+
+export default SuccessModal;
+
 /*
 Assumptions
 
