@@ -10,14 +10,14 @@ import UserTable from "@/app/components/UserTable";
 import SuccessModal from "@/app/components/SuccessModal";
 import ErrorModal from "@/app/components/ErrorModal";
 
-// Fetcher function using SWR(State-While-Revalidate) a react based function to cache api data optimally.
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function Page() {
+// load and destruct data in data and fetchedUsers repectively using SWR(State-While-Revalidate) a react based function to cache api data optimally.
   const { data: fetchedUsers, error } = useSWR(API_URL, fetcher);
 
   const [users, setUsers] = useState([]);
-  const [count, setCount] = useState(0); // ID counter for new users
+  const [count, setCount] = useState(0); // ID counter when adding users
   const [form, setForm] = useState({
     id: "",
     firstName: "",
@@ -25,8 +25,10 @@ export default function Page() {
     email: "",
     company: { name: "" },
   });
+   // modals for sucess and error
   const [successOpen, setSuccessOpen] = useState(false);
   const [errorOpen, setErrorOpen] = useState(false);
+  
   const [errorMessage, setErrorMessage] = useState("");
   const [editing, setEditing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,7 +152,7 @@ export default function Page() {
 
   // Handle user edit
   const handleEdit = (user) => {
-    const nameParts = user.name.split(" ");
+    const nameParts = user.name.split(" ");  // Eg John Smith
     setForm({
       id: user.id,
       firstName: nameParts[0],
