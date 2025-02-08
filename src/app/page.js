@@ -221,7 +221,7 @@ export default function Page() {
           Add User <AddCircle />
         </Button>
       </div>
-      // 5 x 5 data table with pagination to navigate to next 5 records
+{// 5 x 5 data table with pagination to navigate to next 5 records}
       <UserTable
         users={currentUsers}
         handleEdit={handleEdit}
@@ -235,7 +235,7 @@ export default function Page() {
           onChange={(e, value) => setCurrentPage(value)}
         />
       </div>
-      // Triggered through Add User button or edit icon corresponding to any table row.
+{// Triggered through Add User button or edit icon corresponding to any table row.}
       <AddEditModal
         open={openModal}
         onClose={handleCloseModal}
